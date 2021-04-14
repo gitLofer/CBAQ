@@ -8,7 +8,7 @@ def geo(city,lang):
     if j['total_results'] == 0 :
         if lang == "EN":
             return "We don't have data for that city yet"
-        elif lang == "SR":
+        elif lang == "RS":
             return "Trenutno nemamo podatke za taj grad"
     else:
         return j['results'][0]['geometry']['lat'],j['results'][0]['geometry']['lng']
@@ -19,7 +19,7 @@ def aqi (city,lang):
     if j['status'] != "ok":
         if lang == "EN":
             return "We don't have data for that city yet"
-        elif lang == "SR":
+        elif lang == "RS":
             return "Trenutno nemamo podatke za taj grad"
     else:
         return j['data']['aqi']
