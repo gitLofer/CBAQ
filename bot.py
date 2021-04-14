@@ -16,7 +16,7 @@ intents.members = True
 
 client = discord.Client(intents=intents)
 prefix = '?'
-bot = commands.Bot(command_prefix=prefix, intents=intents)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), intents=intents, help_command=None)
 
 users = us.load_users()
 
@@ -26,10 +26,9 @@ async def on_ready():
     print('Connected to Discord!')
 
 @bot.command(name='dm')
-@commands.has_role('Admin')
-async def dm(ctx, *arg1):
-    channel = bot.get_channel(831843361311948800)
-    await channel.send(' '.join(arg1))
+# @commands.has_role('Admin')
+async def dm(ctx):
+    await ctx.message.author.send("U buducnosti ce ovako da salje help")
 
 @bot.command(name='aqi', help='Prikazi AQI za neki grad / Show the AQI for a given city')
 async def aqi(ctx, *arg1):
@@ -45,12 +44,8 @@ async def uvi(ctx, *arg1):
     user_id = ctx.message.author.id
     lang = us.user_lang(user_id, users)
     answ = f.uviTrenutno(arg1.title(), lang)
-    try:
-        await ctx.send(''.join(answ))
-        return
-    except:
-        await ctx.send(answ)
-        return
+    answ = ''.join(answ)
+    await ctx.send(answ)
 
 @bot.command(name='uvi-forecast')
 async def uvi_forecast(ctx, *arg1):
@@ -58,17 +53,16 @@ async def uvi_forecast(ctx, *arg1):
     user_id = ctx.message.author.id
     lang = us.user_lang(user_id, users)
     answ = f.uviZaNarednaTriDana(arg1, lang)
-    await ctx.send(' '.join(answ))
+    await ctx.send(''.join(answ))
 
 @bot.command(name='geo')
 async def uvi(ctx, *arg1):
     arg1 = ' '.join(arg1)
-    print(arg1)
+    # DEBUG: print(arg1)
     user_id = ctx.message.author.id
     lang = us.user_lang(user_id, users)
     answ = f.geo(arg1.title(), lang)
-    answ = ''.join(answ)
-    await ctx.send(answ)
+    await ctx.send(''.join(answ))
 
 @bot.command(name='lang', help='For English: EN, ENGLISH, ENGLESKI\nZa srpski: RS, SR, SERBIAN, SRPSKI')
 async def lang(ctx, arg1):

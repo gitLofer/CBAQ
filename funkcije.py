@@ -79,7 +79,7 @@ def uviZaNarednaTriDana(city, language):
             x = j['data']['forecast']['daily']['uvi'][3]['day']
             y = j['data']['forecast']['daily']['uvi'][4]['day']
             z = j['data']['forecast']['daily']['uvi'][5]['day']
-            return ('\nMax UVI za', str(x), ' je ', str(a), '\nMax uvi za', str(y), ' je ', str(b), '\nMax uvi za', str(z), ' je ', str(c) )
+            return ('\nMax UVI za ', str(x), ' je ', str(a), '\nMax UVI za ', str(y), ' je ', str(b), '\nMax UVI za ', str(z), ' je ', str(c) )
     elif language == 'EN':
         if j['status'] == 'error':
             return "We don't have information for that city"
@@ -91,4 +91,4 @@ def uviZaNarednaTriDana(city, language):
             y = j['data']['forecast']['daily']['uvi'][4]['day']
             z = j['data']['forecast']['daily']['uvi'][5]['day']
 
-            return ('Max UVI for', str(x), ' is ', str(a), '\nMax uvi for', str(y), ' is ', str(b), '\nMax uvi for', str(z), ' is ', str(c))
+            return ('Max UVI for ', str(x), ' is ', str(a), '\nMax UVI for ', str(y), ' is ', str(b), '\nMax UVI for ', str(z), ' is ', str(c))
