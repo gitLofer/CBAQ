@@ -31,6 +31,7 @@ def save_users(user_list):
         return
 
 def user_lang(user_id, user_list):
-    if user_id in user_list:
-        return 'EN'
+    for x in user_list:
+        if x == user_id:
+            return 'EN'
     return 'RS'
