@@ -39,3 +39,33 @@ def uviTrenutno(city, language):
             elif k>=11:
                 return('The maximum UV index is: ' , str(k),'Extreme risk of UV radiation - Violet zone',"Advice: Avoid the sun from 10am to 5pm and protect your skin with clothes")
             return
+
+def uviZaNarednaTriDana(city, language):
+    r = requests.get("https://api.waqi.info/feed/" + city + "/?token=e95e9dd0a620f4d84415424d036fc493e4059e45")
+    j = r.json()
+
+    if language == 'RS':
+        if j['status'] == 'error' :
+            return 'Nemamo informacije za zadati grad'
+        elif j['status'] == 'ok' :
+            a=j['data']['forecast']['daily']['uvi'][1]['max']
+            b=j['data']['forecast']['daily']['uvi'][2]['max']
+            c=j['data']['forecast']['daily']['uvi'][3]['max']
+
+            x = j['data']['forecast']['daily']['uvi'][1]['day']
+            y = j['data']['forecast']['daily']['uvi'][2]['day']
+            z = j['data']['forecast']['daily']['uvi'][3]['day']
+
+            return('Max uvi za ', str(x), ' je ', str(a), 'Max uvi za ', str(y), ' je ', str(b), 'Max uvi za ', str(z), ' je ', str(c) )
+    elif language == 'ENG':
+        if j['status'] == 'error':
+            return "We don't have information for that city"
+        elif j['status'] == 'ok':
+            a = j['data']['forecast']['daily']['uvi'][1]['max']
+            b = j['data']['forecast']['daily']['uvi'][2]['max']
+            c = j['data']['forecast']['daily']['uvi'][3]['max']
+            x = j['data']['forecast']['daily']['uvi'][1]['day']
+            y = j['data']['forecast']['daily']['uvi'][2]['day']
+            z = j['data']['forecast']['daily']['uvi'][3]['day']
+
+            return ('Max uvi for ', str(x), ' is ', str(a), 'Max uvi for ', str(y), ' is ', str(b), 'Max uvi for ', str(z), ' is ',str(c))
