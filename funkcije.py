@@ -22,9 +22,36 @@ def aqi (city, lang):
             return "Trenutno nemamo podatke za taj grad"
     else:
         if lang == 'EN':
-            return "Air quality index for " + city + " is " + str(j['data']['aqi'])
+            k = j['data']['aqi']
+            int(k)
+            if k <= 50:
+                return ('Air quality index is: ', str(k), "\nIt's good air quality (green zone)")
+            elif k <= 100:
+                return ('Air quality index is: ', str(k), "\nIt's moderate air quality (yellow zone)")
+            elif k <= 150:
+                return ('Air quality index is: ', str(k), "\nIt's unhealthy air quality for sensiteve groups (orange zone)")
+            elif k <= 200:
+                return ('Air quality index is: ', str(k), "\nIt's unhealthy air quality (red zone)")
+            elif k <= 300:
+                return ('Air quality index is: ', str(k), "\nIt's very unhealthy air quality (blue zone)")
+            else:
+                return ('Air quality index is: ', str(k), "\nIt's hazardous air quality (violet zone)")
         elif lang == 'RS':
-            return "Kvalitet vazduha u gradu " + city + " je " + str(j['data']['aqi'])
+            k = j['data']['aqi']
+            int(k)
+            if k <= 50:
+                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo je dobar kvalitet vazduha (zelena zona)")
+            elif k <= 100:
+                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo je umeren kvalitet vazduha (zuta zona)")
+            elif k <= 150:
+                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo nije zdrav kvalitet vazduha za osetljive grupe (narandzasta zona)")
+            elif k <= 200:
+                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo nije zdrav kvalitet vazduha (crvena zona)")
+            elif k <= 300:
+                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo bas nije zdrav kvalitet vazduha (plava zona)")
+            else:
+                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo je opasan kvalitet vazduha, koliko je los (ljubicasta zona)")
+
 
 def uviTrenutno(city, language):
     r = requests.get("https://api.waqi.info/feed/" + city + "/?token=e95e9dd0a620f4d84415424d036fc493e4059e45")
