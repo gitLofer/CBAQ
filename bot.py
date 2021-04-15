@@ -101,12 +101,21 @@ async def uvi_forecast(ctx, *arg1):
     await ctx.send(''.join(answ))
 
 @bot.command(name='geo')
-async def uvi(ctx, *arg1):
+async def geo(ctx, *arg1):
     arg1 = ' '.join(arg1)
     # DEBUG: print(arg1)
     user_id = ctx.message.author.id
     lang = us.user_lang(user_id, users)
     answ = f.geo(arg1.title(), lang)
+    await ctx.send(''.join(answ))
+
+@bot.command(name='weather')
+async def weather(ctx, *arg1):
+    arg1 = ' '.join(arg1)
+    # DEBUG: print(arg1)
+    user_id = ctx.message.author.id
+    lang = us.user_lang(user_id, users)
+    answ = f.weather(arg1.title(), lang)
     await ctx.send(''.join(answ))
 
 @bot.command(name='lang', help='For English: EN, ENGLISH, ENGLESKI\nZa srpski: RS, SR, SERBIAN, SRPSKI')

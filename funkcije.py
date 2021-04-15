@@ -130,3 +130,23 @@ def uviZaNarednaTriDana(city, language):
             z = j['data']['forecast']['daily']['uvi'][i+2]['day']
 
             return ('Max UVI for ', str(x), ' is ', str(a), '\nMax UVI for ', str(y), ' is ', str(b), '\nMax UVI for ', str(z), ' is ', str(c))
+
+def weather(city,language):
+    if language == "RS":
+        r = requests.get("https://api.weatherapi.com/v1/current.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&aqi=no&lang=sr")
+        j = r.json()
+        if j['error']['message'] != "No matching location found.":
+            return "Trenutno nemamo informacije za taj grad."
+        else:
+            return "Vreme u gradu " + city + " je " + j['current']['condition']['text']+"\n Temperatura je "+j['current']['temp_c']+" °C"
+    if language == "EN":
+        r = requests.get("https://api.weatherapi.com/v1/current.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&aqi=no")
+        j = r.json()
+        if j['error']['message'] != "No matching location found.":
+            return "We don't have data for that city yet."
+        else:
+            return "Weather in " + city + " is " + j['current']['condition']['text']+"\n The temperature is "+j['current']['temp_c']+" °C"
+
+
+
+
