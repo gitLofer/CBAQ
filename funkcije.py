@@ -56,12 +56,18 @@ def aqi (city, lang):
 def uviTrenutno(city, language):
     r = requests.get("https://api.waqi.info/feed/" + city + "/?token=e95e9dd0a620f4d84415424d036fc493e4059e45")
     j = r.json()
+    r2 = requests.get("https://api.waqi.info/feed/Zagreb/?token=e95e9dd0a620f4d84415424d036fc493e4059e45")
+    j2 = r2.json()
+
+    i = 0
+    while j['data']['forecast']['daily']['uvi'][i]['day'] != j2['data']['forecast']['daily']['uvi'][0]['day']:
+        i += 1
 
     if language == 'RS':
         if j['status'] == 'error':
             return 'Nemamo informacije za zadati grad'
         elif j['status'] == 'ok':
-            k = j['data']['forecast']['daily']['uvi'][0]['max']
+            k = j['data']['forecast']['daily']['uvi'][i]['max']
             int(k)
             if k <= 3:
                 return ('Maksimalni UV indeks je: ',str(k),'\nNiska opasnost od UV zracenja - Zelena zona')
@@ -77,7 +83,7 @@ def uviTrenutno(city, language):
         if j['status'] == 'error':
             return "We don't have information for that city"
         elif j['status'] == 'ok':
-            k=j['data']['forecast']['daily']['uvi'][0]['max']
+            k=j['data']['forecast']['daily']['uvi'][i]['max']
             int(k)
             if k <= 3:
                 return('The maximum UV index is: ' , str(k),'\nLow risk of UV radiation - Green zone')
