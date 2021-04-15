@@ -81,7 +81,7 @@ async def aqi(ctx, *arg1):
     user_id = ctx.message.author.id
     lang = us.user_lang(user_id, users)
     answ = f.aqi(arg1.title(), lang)
-    await ctx.send(answ)
+    await ctx.send(''.join(answ))
 
 @bot.command(name='uvi')
 async def uvi(ctx, *arg1):
