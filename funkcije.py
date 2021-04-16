@@ -212,7 +212,7 @@ def weather(city,language):
         if err != "":
             return err
     embed = discord.Embed(title=title + city.capitalize(), color=0xff9500)
-    embed.add_field(name="", value=x, inline=True)
+    embed.add_field(name=" ", value=x, inline=True)
     return embed
 def weatherforecast(city,language):
     err = ""
