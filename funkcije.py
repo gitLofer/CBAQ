@@ -222,7 +222,7 @@ def weatherforecast(city,language):
         j = r.json()
         Current_Date = datetime.date(datetime.now())
         i = 0
-        while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
+        while str(j['data']['forecast']['forecastday'][i]['daily']) != str(Current_Date):
             i += 1
         try:
 
@@ -235,12 +235,11 @@ def weatherforecast(city,language):
         if err != "":
             return err
     elif language == "RS":
-        r = requests.get(
-            "http://api.weatherapi.com/v1/forecast.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&days=3&aqi=no&lang=sr")
+        r = requests.get("http://api.weatherapi.com/v1/forecast.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&days=3&aqi=no&lang=sr")
         j = r.json()
         Current_Date = datetime.date(datetime.now())
         i = -1
-        while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
+        while str(j['data']['forecast']['forecastday'][i]['daily']) != str(Current_Date):
             i += 1
         try:
 
