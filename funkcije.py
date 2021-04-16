@@ -4,7 +4,6 @@ import discord
 from datetime import datetime
 from datetime import date
 import time
-from PIL import Image, ImageDraw, ImageFont
 
 def vremeTrenutno():
     today = date.today()
@@ -57,11 +56,6 @@ def aqi (city, lang):
             k = j['data']['aqi']
             int(k)
             if k <= 50:
-                #img = Image.new('RGB', (100, 40), color= (0,230,0 ))
-                #fnt = ImageFont.truetype('/library/Fonts/Arial.ttf', 16)
-                #d = ImageDraw.Draw(img)
-                #d.text((10, 10), "Hello world", font=fnt, fill=(255, 255, 0))
-                #img.save('pil_text_font.png')
                 return ('Air quality index is: ', str(k), "\nIt's good air quality (green zone)")
             elif k <= 100:
                 return ('Air quality index is: ', str(k), "\nIt's moderate air quality (yellow zone)")
@@ -194,26 +188,24 @@ def weather(city,language):
     if language == "RS":
         r = requests.get("https://api.weatherapi.com/v1/current.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&aqi=no&lang=sr")
         j = r.json()
-        title = "Vreme u gradu"
+        #title = "Vreme u gradu"
         try:
-            x = j['current']['condition']['text'].lower()+"\nTemperatura je "+str(j['current']['temp_c'])+" °C"
+            return ("Vreme je ", j['current']['condition']['text'].lower(), ", tj. temperatura je ",str(j['current']['temp_c'])+" °C")
         except:
             err = "Trenutno nemamo podatke za taj grad"
         if err != "":
             return err
-    if language == "EN":
+    elif language == "EN":
         r = requests.get("https://api.weatherapi.com/v1/current.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&aqi=no")
         j = r.json()
-        title = "Weather in"
+        #title = "Weather in"
         try:
-            x = j['current']['condition']['text'].lower() + "\nThe temperature is " + str(j['current']['temp_c']) + " °C"
+            return ("Weather is ",j['current']['condition']['text'].lower(), "\nThe temperature is " + str(j['current']['temp_c']) + " °C")
         except:
             err = "We don't have data for that city yet."
         if err != "":
             return err
-    embed = discord.Embed(title=title + city.capitalize(), color=0xff9500)
-    embed.add_field(name=" ", value=x, inline=True)
-    return embed
+
 def weatherforecast(city,language):
     err = ""
     if language == "EN":

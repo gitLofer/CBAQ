@@ -128,10 +128,7 @@ async def weather(ctx, *arg1):
     user_id = ctx.message.author.id
     lang = us.user_lang(user_id, users)
     answ = f.weather(arg1.title(), lang)
-    if isinstance(answ, discord.Embed):
-        await ctx.send(embed=answ)
-    else:
-        await ctx.send(answ)
+    await ctx.send(''.join(answ))
 
 @bot.command(name='weather-forecast')
 async def weatherforecast(ctx, *arg1):
