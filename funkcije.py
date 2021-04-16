@@ -4,7 +4,7 @@ import discord
 from datetime import datetime
 from datetime import date
 import time
-
+from PIL import Image, ImageDraw, ImageFont
 
 def vremeTrenutno():
     today = date.today()
@@ -57,17 +57,22 @@ def aqi (city, lang):
             k = j['data']['aqi']
             int(k)
             if k <= 50:
-                #return ('Air quality index is: ', str(k), "\nIt's good air quality (green zone)")
+                #img = Image.new('RGB', (100, 40), color= (0,230,0 ))
+                #fnt = ImageFont.truetype('/library/Fonts/Arial.ttf', 16)
+                #d = ImageDraw.Draw(img)
+                #d.text((10, 10), "Hello world", font=fnt, fill=(255, 255, 0))
+                #img.save('pil_text_font.png')
+                return ('Air quality index is: ', str(k), "\nIt's good air quality (green zone)")
             elif k <= 100:
-                #return ('Air quality index is: ', str(k), "\nIt's moderate air quality (yellow zone)")
+                return ('Air quality index is: ', str(k), "\nIt's moderate air quality (yellow zone)")
             elif k <= 150:
-                #return ('Air quality index is: ', str(k), "\nIt's unhealthy air quality for sensiteve groups (orange zone)")
+                return ('Air quality index is: ', str(k), "\nIt's unhealthy air quality for sensiteve groups (orange zone)")
             elif k <= 200:
-                #return ('Air quality index is: ', str(k), "\nIt's unhealthy air quality (red zone)")
+                return ('Air quality index is: ', str(k), "\nIt's unhealthy air quality (red zone)")
             elif k <= 300:
-                #return ('Air quality index is: ', str(k), "\nIt's very unhealthy air quality (blue zone)")
+                return ('Air quality index is: ', str(k), "\nIt's very unhealthy air quality (blue zone)")
             else:
-                #return ('Air quality index is: ', str(k), "\nIt's hazardous air quality (violet zone)")
+                return ('Air quality index is: ', str(k), "\nIt's hazardous air quality (violet zone)")
         elif lang == 'RS':
             k = j['data']['aqi']
             int(k)
