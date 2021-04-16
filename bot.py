@@ -18,7 +18,10 @@ client = discord.Client(intents=intents)
 prefix = '?'
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), intents=intents, help_command=None)
 
-users = us.load_users()
+try:
+    users = us.load_users()
+except:
+    users = []
 
 @bot.event
 async def on_ready():
@@ -47,16 +50,16 @@ async def help(ctx):
     uvi_forecast_help_rs = 'Prikazuje prognozu 3 dana UV indeksa sa uneti grad'
     aqi_help_rs = 'Prikazuje indeks kvaliteta vazduha za uneti grad'
     geo_help_rs = 'Prikazuje geografske koordinate unetog grada'
-    weather_help_rs = 'Prikazuje vreme i temperaturu za uneti grad'
+    weather_help_rs = '*Prikazuje vreme i temperaturu za uneti grad'
 
     if (lang == 'EN'):
-        embed.add_field(name="help", value=help_en, inline=False)
-        embed.add_field(name="lang", value=lang_help_en, inline=False)
-        embed.add_field(name="uvi", value=uvi_help_en, inline=False)
-        embed.add_field(name="uvi-forecast", value=uvi_forecast_help_en, inline=False)
-        embed.add_field(name="aqi", value=aqi_help_en, inline=False)
-        embed.add_field(name="geo", value=geo_help_en, inline=False)
-        embed.add_field(name="weather", value=weather_help_en, inline=False)
+        embed.add_field(name=":mechanic: help", value=help_en, inline=False)
+        embed.add_field(name=":book: lang", value=lang_help_en, inline=False)
+        embed.add_field(name=":sunny: uvi", value=uvi_help_en, inline=False)
+        embed.add_field(name=":sunny: uvi-forecast", value=uvi_forecast_help_en, inline=False)
+        embed.add_field(name=":dash: aqi", value=aqi_help_en, inline=False)
+        embed.add_field(name=":earth_africa: geo", value=geo_help_en, inline=False)
+        embed.add_field(name=":white_sun_rain_cloud: weather", value=weather_help_en, inline=False)
         try:
             await ctx.message.author.send(embed=embed)
             await ctx.send("Check your DMs!")
@@ -64,13 +67,13 @@ async def help(ctx):
         except:
             await ctx.send("Your DMs are disabled, please turn them on so you can receive the help menu!")
     elif (lang == 'RS'):
-        embed.add_field(name="help", value=help_rs, inline=False)
-        embed.add_field(name="lang", value=lang_help_rs, inline=False)
-        embed.add_field(name="uvi", value=uvi_help_rs, inline=False)
-        embed.add_field(name="uvi-forecast", value=uvi_forecast_help_rs, inline=False)
-        embed.add_field(name="aqi", value=aqi_help_rs, inline=False)
-        embed.add_field(name="geo", value=geo_help_rs, inline=False)
-        embed.add_field(name="weather", value=weather_help_rs, inline=False)
+        embed.add_field(name=":mechanic: help", value=help_rs, inline=False)
+        embed.add_field(name=":book: **lang**", value=lang_help_rs, inline=False)
+        embed.add_field(name=":sunny: uvi", value=uvi_help_rs, inline=False)
+        embed.add_field(name=":sunny: uvi-forecast", value=uvi_forecast_help_rs, inline=False)
+        embed.add_field(name=":dash: aqi", value=aqi_help_rs, inline=False)
+        embed.add_field(name=":earth_africa: geo", value=geo_help_rs, inline=False)
+        embed.add_field(name=":white_sun_rain_cloud: weather", value=weather_help_rs, inline=False)
         try:
             await ctx.message.author.send(embed=embed)
             await ctx.send("Poslao sam vam poruku!")
@@ -114,7 +117,10 @@ async def geo(ctx, *arg1):
     user_id = ctx.message.author.id
     lang = us.user_lang(user_id, users)
     answ = f.geo(arg1.title(), lang)
-    await ctx.send(''.join(answ))
+    if isinstance(answ, discord.Embed):
+        await ctx.send(embed=answ)
+    else:
+        await ctx.send(answ)
 
 @bot.command(name='weather')
 async def weather(ctx, *arg1):
@@ -142,10 +148,12 @@ async def lang(ctx, arg1):
     user_id = ctx.author.id
     if arg1 == 'RS' or arg1 == 'SRPSKI' or arg1 == 'SERBIAN' or arg1 == 'SR':
         us.remove_user_id(user_id, users)
+        print(users)
         await ctx.send("Jezik namesten na srpski.")
         return
     elif arg1 == 'EN' or arg1 == 'ENGLESKI' or arg1 == 'ENGLISH':
         us.add_user_id(user_id, users)
+        print(users)
         await ctx.send("Language changed to English.")
         return
     await ctx.send("Uneli ste nevazecu opciju. Uradite \"" + prefix + "help lang\" da saznate vise.\nYou've entered an invalid option. Do \"" + prefix + "help lang\" to see all valid options")
