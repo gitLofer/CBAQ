@@ -104,14 +104,14 @@ def uviZaNarednaTriDana(city, language):
     r2 = requests.get("https://api.waqi.info/feed/Zagreb/?token=e95e9dd0a620f4d84415424d036fc493e4059e45")
     j2 = r2.json()
 
-    i=1
-    while j['data']['forecast']['daily']['uvi'][i]['day'] != j2['data']['forecast']['daily']['uvi'][1]['day'] :
-        i += 1
 
     if language == 'RS':
-        if j['status'] == 'error' :
+        if j['status'] == 'error':
             return 'Nemamo informacije za zadati grad'
-        elif j['status'] == 'ok' :
+        elif j['status'] == 'ok':
+            i = 1
+            while j['data']['forecast']['daily']['uvi'][i]['day'] != j2['data']['forecast']['daily']['uvi'][1]['day']:
+                i += 1
             a = j['data']['forecast']['daily']['uvi'][i]['max']
             b = j['data']['forecast']['daily']['uvi'][i + 1]['max']
             c = j['data']['forecast']['daily']['uvi'][i + 2]['max']
@@ -119,10 +119,10 @@ def uviZaNarednaTriDana(city, language):
             y = j['data']['forecast']['daily']['uvi'][i + 1]['day']
             z = j['data']['forecast']['daily']['uvi'][i + 2]['day']
 
-            embed = discord.Embed(title = "Maksimalan UVI za naredna tri dana: ", color = 0x0cca3b)
-            embed.add_field(name = str(x), value = str(a), inline = True)
-            embed.add_field(name = str(y), value = str(b), inline = True)
-            embed.add_field(name = str(z), value = str(c), inline = True)
+            embed = discord.Embed(title = "Maksimalan UVI za naredna tri dana: ", color=0x0cca3b)
+            embed.add_field(name=str(x), value=str(a), inline=True)
+            embed.add_field(name=str(y), value=str(b), inline=True)
+            embed.add_field(name=str(z), value=str(c), inline=True)
             return embed
 
             #return ('\nMax UVI za ', str(x), ' je ', str(a), '\nMax UVI za ', str(y), ' je ', str(b), '\nMax UVI za ', str(z), ' je ', str(c) )
@@ -130,6 +130,9 @@ def uviZaNarednaTriDana(city, language):
         if j['status'] == 'error':
             return "We don't have information for that city"
         elif j['status'] == 'ok':
+            i = 1
+            while j['data']['forecast']['daily']['uvi'][i]['day'] != j2['data']['forecast']['daily']['uvi'][1]['day']:
+                i += 1
             a = j['data']['forecast']['daily']['uvi'][i]['max']
             b = j['data']['forecast']['daily']['uvi'][i+1]['max']
             c = j['data']['forecast']['daily']['uvi'][i+2]['max']
@@ -160,7 +163,3 @@ def weather(city,language):
             return "We don't have data for that city yet."
         else:
             return "Weather in " + city + " is " + j['current']['condition']['text']+"\n The temperature is "+j['current']['temp_c']+" °C"
-
-
-
-

@@ -99,7 +99,7 @@ async def uvi_forecast(ctx, *arg1):
     lang = us.user_lang(user_id, users)
     answ = f.uviZaNarednaTriDana(arg1, lang)
     if isinstance(answ, discord.Embed):
-        await ctx.send(embed = answ)
+        await ctx.send(embed=answ)
     else:
         await ctx.send(answ)
 
