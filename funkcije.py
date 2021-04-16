@@ -213,7 +213,6 @@ def weather(city,language):
             return err
     embed = discord.Embed(title=title, color=0xff9500)
     embed.add_field(name=city.capitalize(), value=x, inline=True)
-
     return embed
 def weatherforecast(city,language):
     err = ""
@@ -223,12 +222,12 @@ def weatherforecast(city,language):
         j = r.json()
         try:
             Current_Date = datetime.date(datetime.now())
-            i = -1
+            i = 0
             while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
                 i += 1
-            x = j['forecast']['forecastday'][i]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][0]['day']['avgtemp_c']) + " °C"
-            y = j['forecast']['forecastday'][i+1]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
-            z = j['forecast']['forecastday'][i+2]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
+            x = j['forecast']['forecastday'][i-1]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][0]['day']['avgtemp_c']) + " °C"
+            y = j['forecast']['forecastday'][i]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
+            z = j['forecast']['forecastday'][i+1]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
         except:
             err = "We don't have data for that city yet."
         title = "Weather forecast for " + city.capitalize()
