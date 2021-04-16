@@ -18,7 +18,10 @@ client = discord.Client(intents=intents)
 prefix = '?'
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), intents=intents, help_command=None)
 
-users = us.load_users()
+try:
+    users = us.load_users()
+except:
+    users = []
 
 @bot.event
 async def on_ready():
@@ -131,10 +134,12 @@ async def lang(ctx, arg1):
     user_id = ctx.author.id
     if arg1 == 'RS' or arg1 == 'SRPSKI' or arg1 == 'SERBIAN' or arg1 == 'SR':
         us.remove_user_id(user_id, users)
+        print(users)
         await ctx.send("Jezik namesten na srpski.")
         return
     elif arg1 == 'EN' or arg1 == 'ENGLESKI' or arg1 == 'ENGLISH':
         us.add_user_id(user_id, users)
+        print(users)
         await ctx.send("Language changed to English.")
         return
     await ctx.send("Uneli ste nevazecu opciju. Uradite \"" + prefix + "help lang\" da saznate vise.\nYou've entered an invalid option. Do \"" + prefix + "help lang\" to see all valid options")
