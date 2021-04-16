@@ -170,3 +170,37 @@ def weather(city,language):
                 'text'].lower() + "\nThe temperature is " + str(j['current']['temp_c']) + " °C"
         except:
             return "We don't have data for that city yet."
+
+def weatherforecast(city,language):
+    err = ""
+    if language == "EN":
+
+        r = requests.get("http://api.weatherapi.com/v1/forecast.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&days=3&aqi=no")
+        j = r.json()
+        try:
+            x = j['forecast']['forecastday'][0]['day']['condition']['text'].capitalize() + " Average temperature: "+str(j['forecast']['forecastday'][0]['day']['avgtemp_c']) + " °C"
+            y = j['forecast']['forecastday'][1]['day']['condition']['text'].capitalize() + " Average temperature: "+str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
+            z = j['forecast']['forecastday'][2]['day']['condition']['text'].capitalize() + " Average temperature: "+str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
+        except:
+            err = "We don't have data for that city yet."
+        title = "Weather forecast for the next 3 days in " + city.capitalize()
+        if err != "":
+            return err
+    elif language == "RS":
+        r = requests.get(
+            "http://api.weatherapi.com/v1/forecast.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&days=3&aqi=no&lang=sr")
+        j = r.json()
+        try:
+            x = j['forecast']['forecastday'][0]['day']['condition']['text'].capitalize() + " Prosecna temperatura: " + str(j['forecast']['forecastday'][0]['day']['avgtemp_c']) + " °C"
+            y = j['forecast']['forecastday'][1]['day']['condition']['text'].capitalize() + " Prosecna temperatura: " + str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
+            z = j['forecast']['forecastday'][2]['day']['condition']['text'].capitalize() + " Prosecna temperatura: " + str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
+        except:
+            err = "Trenutno nemamo podatke za taj grad."
+        title = "Vremenska prognoza za naredna 3 dana u gradu " + city.capitalize()
+        if err != "":
+            return err
+    embed = discord.Embed(title=title, color=0xff9500)
+    embed.add_field(name=str(j['forecast']['forecastday'][0]['date']), value=x, inline=True)
+    embed.add_field(name=str(j['forecast']['forecastday'][1]['date']), value=y, inline=True)
+    embed.add_field(name=str(j['forecast']['forecastday'][1]['date']), value=z, inline=True)
+    return embed
