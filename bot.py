@@ -50,16 +50,16 @@ async def help(ctx):
     uvi_forecast_help_rs = 'Prikazuje prognozu 3 dana UV indeksa sa uneti grad'
     aqi_help_rs = 'Prikazuje indeks kvaliteta vazduha za uneti grad'
     geo_help_rs = 'Prikazuje geografske koordinate unetog grada'
-    weather_help_rs = 'Prikazuje vreme i temperaturu za uneti grad'
+    weather_help_rs = '*Prikazuje vreme i temperaturu za uneti grad'
 
     if (lang == 'EN'):
-        embed.add_field(name="help", value=help_en, inline=False)
-        embed.add_field(name="lang", value=lang_help_en, inline=False)
-        embed.add_field(name="uvi", value=uvi_help_en, inline=False)
-        embed.add_field(name="uvi-forecast", value=uvi_forecast_help_en, inline=False)
-        embed.add_field(name="aqi", value=aqi_help_en, inline=False)
-        embed.add_field(name="geo", value=geo_help_en, inline=False)
-        embed.add_field(name="weather", value=weather_help_en, inline=False)
+        embed.add_field(name=":mechanic: help", value=help_en, inline=False)
+        embed.add_field(name=":book: lang", value=lang_help_en, inline=False)
+        embed.add_field(name=":sunny: uvi", value=uvi_help_en, inline=False)
+        embed.add_field(name=":sunny: uvi-forecast", value=uvi_forecast_help_en, inline=False)
+        embed.add_field(name=":dash: aqi", value=aqi_help_en, inline=False)
+        embed.add_field(name=":earth_africa: geo", value=geo_help_en, inline=False)
+        embed.add_field(name=":white_sun_rain_cloud: weather", value=weather_help_en, inline=False)
         try:
             await ctx.message.author.send(embed=embed)
             await ctx.send("Check your DMs!")
@@ -67,13 +67,13 @@ async def help(ctx):
         except:
             await ctx.send("Your DMs are disabled, please turn them on so you can receive the help menu!")
     elif (lang == 'RS'):
-        embed.add_field(name="help", value=help_rs, inline=False)
-        embed.add_field(name="lang", value=lang_help_rs, inline=False)
-        embed.add_field(name="uvi", value=uvi_help_rs, inline=False)
-        embed.add_field(name="uvi-forecast", value=uvi_forecast_help_rs, inline=False)
-        embed.add_field(name="aqi", value=aqi_help_rs, inline=False)
-        embed.add_field(name="geo", value=geo_help_rs, inline=False)
-        embed.add_field(name="weather", value=weather_help_rs, inline=False)
+        embed.add_field(name=":mechanic: help", value=help_rs, inline=False)
+        embed.add_field(name=":book: **lang**", value=lang_help_rs, inline=False)
+        embed.add_field(name=":sunny: uvi", value=uvi_help_rs, inline=False)
+        embed.add_field(name=":sunny: uvi-forecast", value=uvi_forecast_help_rs, inline=False)
+        embed.add_field(name=":dash: aqi", value=aqi_help_rs, inline=False)
+        embed.add_field(name=":earth_africa: geo", value=geo_help_rs, inline=False)
+        embed.add_field(name=":white_sun_rain_cloud: weather", value=weather_help_rs, inline=False)
         try:
             await ctx.message.author.send(embed=embed)
             await ctx.send("Poslao sam vam poruku!")
