@@ -125,11 +125,11 @@ async def geo(ctx, *arg1):
 @bot.command(name='weather')
 async def weather(ctx, *arg1):
     arg1 = ' '.join(arg1)
-    # DEBUG: print(arg1)
     user_id = ctx.message.author.id
     lang = us.user_lang(user_id, users)
     answ = f.weather(arg1.title(), lang)
-    await ctx.send(''.join(answ))
+    answ = ''.join(answ)
+    await ctx.send(answ)
 
 @bot.command(name='weather-forecast')
 async def weatherforecast(ctx, *arg1):

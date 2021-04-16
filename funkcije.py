@@ -185,22 +185,31 @@ def uviZaNarednaTriDana(city, language):
             #return ('Max UVI for ', str(x), ' is ', str(a), '\nMax UVI for ', str(y), ' is ', str(b), '\nMax UVI for ', str(z), ' is ', str(c))
 
 def weather(city,language):
+    err = ""
     if language == "RS":
         r = requests.get("https://api.weatherapi.com/v1/current.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&aqi=no&lang=sr")
         j = r.json()
+        title = "Vreme u gradu"
         try:
-            return "Vreme u gradu " + city.capitalize() + " je " + j['current']['condition']['text'].lower()+"\nTemperatura je "+str(j['current']['temp_c'])+" °C"
+            x = j['current']['condition']['text'].lower()+"\nTemperatura je "+str(j['current']['temp_c'])+" °C"
         except:
-            return "Trenutno nemamo podatke za taj grad"
+            err = "Trenutno nemamo podatke za taj grad"
+        if err != "":
+            return err
     if language == "EN":
         r = requests.get("https://api.weatherapi.com/v1/current.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&aqi=no")
         j = r.json()
+        title = "Weather in"
         try:
-            return "Weather in " + city.capitalize() + " is " + j['current']['condition'][
-                'text'].lower() + "\nThe temperature is " + str(j['current']['temp_c']) + " °C"
+            x = j['current']['condition']['text'].lower() + "\nThe temperature is " + str(j['current']['temp_c']) + " °C"
         except:
-            return "We don't have data for that city yet."
+            err = "We don't have data for that city yet."
+        if err != "":
+            return err
+    embed = discord.Embed(title=title, color=0xff9500)
+    embed.add_field(name=city.capitalize(), value=x, inline=True)
 
+    return embed
 def weatherforecast(city,language):
     err = ""
     if language == "EN":
@@ -208,12 +217,16 @@ def weatherforecast(city,language):
         r = requests.get("http://api.weatherapi.com/v1/forecast.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&days=3&aqi=no")
         j = r.json()
         try:
-            x = j['forecast']['forecastday'][0]['day']['condition']['text'].capitalize() + " Average temperature: "+str(j['forecast']['forecastday'][0]['day']['avgtemp_c']) + " °C"
-            y = j['forecast']['forecastday'][1]['day']['condition']['text'].capitalize() + " Average temperature: "+str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
-            z = j['forecast']['forecastday'][2]['day']['condition']['text'].capitalize() + " Average temperature: "+str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
+            Current_Date = datetime.date(datetime.now())
+            i = -1
+            while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
+                i += 1
+            x = j['forecast']['forecastday'][i]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][0]['day']['avgtemp_c']) + " °C"
+            y = j['forecast']['forecastday'][i+1]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
+            z = j['forecast']['forecastday'][i+2]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
         except:
             err = "We don't have data for that city yet."
-        title = "Weather forecast for the next 3 days in " + city.capitalize()
+        title = "Weather forecast for " + city.capitalize()
         if err != "":
             return err
     elif language == "RS":
@@ -221,12 +234,16 @@ def weatherforecast(city,language):
             "http://api.weatherapi.com/v1/forecast.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&days=3&aqi=no&lang=sr")
         j = r.json()
         try:
-            x = j['forecast']['forecastday'][0]['day']['condition']['text'].capitalize() + " Prosecna temperatura: " + str(j['forecast']['forecastday'][0]['day']['avgtemp_c']) + " °C"
-            y = j['forecast']['forecastday'][1]['day']['condition']['text'].capitalize() + " Prosecna temperatura: " + str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
-            z = j['forecast']['forecastday'][2]['day']['condition']['text'].capitalize() + " Prosecna temperatura: " + str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
+            Current_Date = datetime.date(datetime.now())
+            i = -1
+            while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
+                i += 1
+            x = j['forecast']['forecastday'][i+0]['day']['condition']['text'].capitalize() + "\nProsecna temperatura: " + str(j['forecast']['forecastday'][0]['day']['avgtemp_c']) + " °C"
+            y = j['forecast']['forecastday'][i+1]['day']['condition']['text'].capitalize() + "\nProsecna temperatura: " + str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
+            z = j['forecast']['forecastday'][i+2]['day']['condition']['text'].capitalize() + "\nProsecna temperatura: " + str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
         except:
             err = "Trenutno nemamo podatke za taj grad."
-        title = "Vremenska prognoza za naredna 3 dana u gradu " + city.capitalize()
+        title = "Vremenska prognoza za " + city.capitalize()
         if err != "":
             return err
     embed = discord.Embed(title=title, color=0xff9500)
