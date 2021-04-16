@@ -117,7 +117,10 @@ async def geo(ctx, *arg1):
     user_id = ctx.message.author.id
     lang = us.user_lang(user_id, users)
     answ = f.geo(arg1.title(), lang)
-    await ctx.send(''.join(answ))
+    if isinstance(answ, discord.Embed):
+        await ctx.send(embed=answ)
+    else:
+        await ctx.send(answ)
 
 @bot.command(name='weather')
 async def weather(ctx, *arg1):

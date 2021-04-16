@@ -8,11 +8,27 @@ def geo(city,lang):
     j = r.json()
     if j['total_results'] == 0:
         if lang == "EN":
-            return "We don't have data for that city yet"
+            return "We don't have data for that city"
         elif lang == "RS":
-            return "Trenutno nemamo podatke za taj grad"
+            return "Nemamo podatke za taj grad"
     else:
-        return "Lat: " + str(j['results'][0]['geometry']['lat']) + '\nLng: ' + str(j['results'][0]['geometry']['lng'])
+        if lang == 'EN':
+            la = str(j['results'][0]['geometry']['lat'])
+            ln = str(j['results'][0]['geometry']['lng'])
+            embed = discord.Embed(title="Geolocation", url="https://www.google.com/maps/@"+la+","+ln+",14z", color=0x6d51f5)
+            embed.add_field(name="lat", value= la , inline=True)
+            embed.add_field(name="lgn", value= ln , inline=True)
+            embed.set_footer(text="datum, vreme")
+            return embed
+        elif lang == 'RS':
+            la = str(j['results'][0]['geometry']['lat'])
+            ln = str(j['results'][0]['geometry']['lng'])
+            embed = discord.Embed(title="Geolokacija", url="https://www.google.com/maps/@" + la + "," + ln + ",14z",color=0x6d51f5)
+            embed.add_field(name="lat", value=la, inline=True)
+            embed.add_field(name="lgn", value=ln, inline=True)
+            embed.set_footer(text="datum, vreme")
+            return embed
+            #return "Lat: " + str(j['results'][0]['geometry']['lat']) + '\nLng: ' + str(j['results'][0]['geometry']['lng'])
 
 def aqi (city, lang):
     r = requests.get("https://api.waqi.info/feed/" + city + "/?token=e95e9dd0a620f4d84415424d036fc493e4059e45")
