@@ -1,6 +1,7 @@
 import json
 import requests
 import discord
+from datetime import datetime
 
 def geo(city,lang):
     r = requests.get("https://api.opencagedata.com/geocode/v1/json?q="+city+"&key=62a752a9a17d47db88fcf4b4576783d6")
@@ -57,17 +58,16 @@ def aqi (city, lang):
 def uviTrenutno(city, language):
     r = requests.get("https://api.waqi.info/feed/" + city + "/?token=e95e9dd0a620f4d84415424d036fc493e4059e45")
     j = r.json()
-    r2 = requests.get("https://api.waqi.info/feed/Zagreb/?token=e95e9dd0a620f4d84415424d036fc493e4059e45")
-    j2 = r2.json()
-
-    i = 0
-    while j['data']['forecast']['daily']['uvi'][i]['day'] != j2['data']['forecast']['daily']['uvi'][0]['day']:
-        i += 1
 
     if language == 'RS':
         if j['status'] == 'error':
             return 'Nemamo informacije za zadati grad'
         elif j['status'] == 'ok':
+            Current_Date = datetime.date(datetime.now())
+            i = 0
+            while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
+                i += 1
+
             k = j['data']['forecast']['daily']['uvi'][i]['max']
             int(k)
             if k <= 3:
@@ -84,6 +84,11 @@ def uviTrenutno(city, language):
         if j['status'] == 'error':
             return "We don't have information for that city"
         elif j['status'] == 'ok':
+            Current_Date = datetime.date(datetime.now())
+            i = 0
+            while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
+                i += 1
+
             k=j['data']['forecast']['daily']['uvi'][i]['max']
             int(k)
             if k <= 3:
@@ -101,23 +106,22 @@ def uviTrenutno(city, language):
 def uviZaNarednaTriDana(city, language):
     r = requests.get("https://api.waqi.info/feed/" + city + "/?token=e95e9dd0a620f4d84415424d036fc493e4059e45")
     j = r.json()
-    r2 = requests.get("https://api.waqi.info/feed/Zagreb/?token=e95e9dd0a620f4d84415424d036fc493e4059e45")
-    j2 = r2.json()
-
 
     if language == 'RS':
         if j['status'] == 'error':
             return 'Nemamo informacije za zadati grad'
         elif j['status'] == 'ok':
-            i = 1
-            while j['data']['forecast']['daily']['uvi'][i]['day'] != j2['data']['forecast']['daily']['uvi'][1]['day']:
+            Current_Date = datetime.date(datetime.now())
+            i = 0
+            while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
                 i += 1
-            a = j['data']['forecast']['daily']['uvi'][i]['max']
-            b = j['data']['forecast']['daily']['uvi'][i + 1]['max']
-            c = j['data']['forecast']['daily']['uvi'][i + 2]['max']
-            x = j['data']['forecast']['daily']['uvi'][i]['day']
-            y = j['data']['forecast']['daily']['uvi'][i + 1]['day']
-            z = j['data']['forecast']['daily']['uvi'][i + 2]['day']
+
+            a = j['data']['forecast']['daily']['uvi'][i + 1]['max']
+            b = j['data']['forecast']['daily']['uvi'][i + 2]['max']
+            c = j['data']['forecast']['daily']['uvi'][i + 3]['max']
+            x = j['data']['forecast']['daily']['uvi'][i + 1]['day']
+            y = j['data']['forecast']['daily']['uvi'][i + 2]['day']
+            z = j['data']['forecast']['daily']['uvi'][i + 3]['day']
 
             embed = discord.Embed(title = "Maksimalan UVI za naredna tri dana: ", color=0x0cca3b)
             embed.add_field(name=str(x), value=str(a), inline=True)
@@ -130,15 +134,17 @@ def uviZaNarednaTriDana(city, language):
         if j['status'] == 'error':
             return "We don't have information for that city"
         elif j['status'] == 'ok':
-            i = 1
-            while j['data']['forecast']['daily']['uvi'][i]['day'] != j2['data']['forecast']['daily']['uvi'][1]['day']:
+            Current_Date = datetime.date(datetime.now())
+            i = 0
+            while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
                 i += 1
-            a = j['data']['forecast']['daily']['uvi'][i]['max']
-            b = j['data']['forecast']['daily']['uvi'][i+1]['max']
-            c = j['data']['forecast']['daily']['uvi'][i+2]['max']
-            x = j['data']['forecast']['daily']['uvi'][i]['day']
-            y = j['data']['forecast']['daily']['uvi'][i+1]['day']
-            z = j['data']['forecast']['daily']['uvi'][i+2]['day']
+
+            a = j['data']['forecast']['daily']['uvi'][i+1]['max']
+            b = j['data']['forecast']['daily']['uvi'][i+2]['max']
+            c = j['data']['forecast']['daily']['uvi'][i+3]['max']
+            x = j['data']['forecast']['daily']['uvi'][i+1]['day']
+            y = j['data']['forecast']['daily']['uvi'][i+2]['day']
+            z = j['data']['forecast']['daily']['uvi'][i+3]['day']
 
             embed = discord.Embed(title="Max UVI for next three days is: ", color=0x0cca3b)
             embed.add_field(name=str(x), value=str(a), inline=True)
