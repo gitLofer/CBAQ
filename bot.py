@@ -98,7 +98,10 @@ async def uvi_forecast(ctx, *arg1):
     user_id = ctx.message.author.id
     lang = us.user_lang(user_id, users)
     answ = f.uviZaNarednaTriDana(arg1, lang)
-    await ctx.send(''.join(answ))
+    if isinstance(answ, discord.Embed):
+        await ctx.send(embed = answ)
+    else:
+        await ctx.send(answ)
 
 @bot.command(name='geo')
 async def geo(ctx, *arg1):

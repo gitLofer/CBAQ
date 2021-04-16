@@ -1,5 +1,6 @@
 import json
 import requests
+import discord
 
 def geo(city,lang):
     r = requests.get("https://api.opencagedata.com/geocode/v1/json?q="+city+"&key=62a752a9a17d47db88fcf4b4576783d6")
@@ -112,12 +113,19 @@ def uviZaNarednaTriDana(city, language):
             return 'Nemamo informacije za zadati grad'
         elif j['status'] == 'ok' :
             a = j['data']['forecast']['daily']['uvi'][i]['max']
-            b = j['data']['forecast']['daily']['uvi'][i+1]['max']
-            c = j['data']['forecast']['daily']['uvi'][i+2]['max']
+            b = j['data']['forecast']['daily']['uvi'][i + 1]['max']
+            c = j['data']['forecast']['daily']['uvi'][i + 2]['max']
             x = j['data']['forecast']['daily']['uvi'][i]['day']
-            y = j['data']['forecast']['daily']['uvi'][i+1]['day']
-            z = j['data']['forecast']['daily']['uvi'][i+2]['day']
-            return ('\nMax UVI za ', str(x), ' je ', str(a), '\nMax UVI za ', str(y), ' je ', str(b), '\nMax UVI za ', str(z), ' je ', str(c) )
+            y = j['data']['forecast']['daily']['uvi'][i + 1]['day']
+            z = j['data']['forecast']['daily']['uvi'][i + 2]['day']
+
+            embed = discord.Embed(title = "Maksimalan UVI za naredna tri dana: ", color = 0x0cca3b)
+            embed.add_field(name = str(x), value = str(a), inline = True)
+            embed.add_field(name = str(y), value = str(b), inline = True)
+            embed.add_field(name = str(z), value = str(c), inline = True)
+            return embed
+
+            #return ('\nMax UVI za ', str(x), ' je ', str(a), '\nMax UVI za ', str(y), ' je ', str(b), '\nMax UVI za ', str(z), ' je ', str(c) )
     elif language == 'EN':
         if j['status'] == 'error':
             return "We don't have information for that city"
@@ -129,7 +137,13 @@ def uviZaNarednaTriDana(city, language):
             y = j['data']['forecast']['daily']['uvi'][i+1]['day']
             z = j['data']['forecast']['daily']['uvi'][i+2]['day']
 
-            return ('Max UVI for ', str(x), ' is ', str(a), '\nMax UVI for ', str(y), ' is ', str(b), '\nMax UVI for ', str(z), ' is ', str(c))
+            embed = discord.Embed(title="Max UVI for next three days is: ", color=0x0cca3b)
+            embed.add_field(name=str(x), value=str(a), inline=True)
+            embed.add_field(name=str(y), value=str(b), inline=True)
+            embed.add_field(name=str(z), value=str(c), inline=True)
+            return embed
+
+            #return ('Max UVI for ', str(x), ' is ', str(a), '\nMax UVI for ', str(y), ' is ', str(b), '\nMax UVI for ', str(z), ' is ', str(c))
 
 def weather(city,language):
     if language == "RS":
