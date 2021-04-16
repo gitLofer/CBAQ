@@ -5,6 +5,7 @@ from datetime import datetime
 from datetime import date
 import time
 
+
 def vremeTrenutno():
     today = date.today()
     d = today.strftime("%d/%m/%Y")
@@ -56,17 +57,17 @@ def aqi (city, lang):
             k = j['data']['aqi']
             int(k)
             if k <= 50:
-                return ('Air quality index is: ', str(k), "\nIt's good air quality (green zone)")
+                #return ('Air quality index is: ', str(k), "\nIt's good air quality (green zone)")
             elif k <= 100:
-                return ('Air quality index is: ', str(k), "\nIt's moderate air quality (yellow zone)")
+                #return ('Air quality index is: ', str(k), "\nIt's moderate air quality (yellow zone)")
             elif k <= 150:
-                return ('Air quality index is: ', str(k), "\nIt's unhealthy air quality for sensiteve groups (orange zone)")
+                #return ('Air quality index is: ', str(k), "\nIt's unhealthy air quality for sensiteve groups (orange zone)")
             elif k <= 200:
-                return ('Air quality index is: ', str(k), "\nIt's unhealthy air quality (red zone)")
+                #return ('Air quality index is: ', str(k), "\nIt's unhealthy air quality (red zone)")
             elif k <= 300:
-                return ('Air quality index is: ', str(k), "\nIt's very unhealthy air quality (blue zone)")
+                #return ('Air quality index is: ', str(k), "\nIt's very unhealthy air quality (blue zone)")
             else:
-                return ('Air quality index is: ', str(k), "\nIt's hazardous air quality (violet zone)")
+                #return ('Air quality index is: ', str(k), "\nIt's hazardous air quality (violet zone)")
         elif lang == 'RS':
             k = j['data']['aqi']
             int(k)
@@ -231,5 +232,5 @@ def weatherforecast(city,language):
     embed = discord.Embed(title=title, color=0xff9500)
     embed.add_field(name=str(j['forecast']['forecastday'][0]['date']), value=x, inline=True)
     embed.add_field(name=str(j['forecast']['forecastday'][1]['date']), value=y, inline=True)
-    embed.add_field(name=str(j['forecast']['forecastday'][1]['date']), value=z, inline=True)
+    embed.add_field(name=str(j['forecast']['forecastday'][2]['date']), value=z, inline=True)
     return embed
