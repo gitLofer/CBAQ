@@ -39,6 +39,7 @@ async def help(ctx):
     uvi_forecast_help_en = 'Show a 3-day UV index forecast for a given city'
     aqi_help_en = 'Show the air quality index for a given city'
     geo_help_en = 'Show the geographical coordinates for a given city'
+    weather_help_en = 'Show the weather and temperature for a given city'
 
     help_rs = 'Prikazi ovu poruku'
     lang_help_rs = 'Menja jezik bota u željeni. Dostupne opcije su Srpski (RS) i Engleski (EN)'
@@ -46,6 +47,7 @@ async def help(ctx):
     uvi_forecast_help_rs = 'Prikazuje prognozu 3 dana UV indeksa sa uneti grad'
     aqi_help_rs = 'Prikazuje indeks kvaliteta vazduha za uneti grad'
     geo_help_rs = 'Prikazuje geografske koordinate unetog grada'
+    weather_help_rs = 'Prikazuje vreme i temperaturu za uneti grad'
 
     if (lang == 'EN'):
         embed.add_field(name="help", value=help_en, inline=False)
@@ -54,6 +56,7 @@ async def help(ctx):
         embed.add_field(name="uvi-forecast", value=uvi_forecast_help_en, inline=False)
         embed.add_field(name="aqi", value=aqi_help_en, inline=False)
         embed.add_field(name="geo", value=geo_help_en, inline=False)
+        embed.add_field(name="weather", value=weather_help_en, inline=False)
         try:
             await ctx.message.author.send(embed=embed)
             await ctx.send("Check your DMs!")
@@ -67,6 +70,7 @@ async def help(ctx):
         embed.add_field(name="uvi-forecast", value=uvi_forecast_help_rs, inline=False)
         embed.add_field(name="aqi", value=aqi_help_rs, inline=False)
         embed.add_field(name="geo", value=geo_help_rs, inline=False)
+        embed.add_field(name="weather", value=weather_help_rs, inline=False)
         try:
             await ctx.message.author.send(embed=embed)
             await ctx.send("Poslao sam vam poruku!")
