@@ -158,14 +158,15 @@ def weather(city,language):
     if language == "RS":
         r = requests.get("https://api.weatherapi.com/v1/current.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&aqi=no&lang=sr")
         j = r.json()
-        if j['error']['message'] != "No matching location found.":
-            return "Trenutno nemamo informacije za taj grad."
-        else:
-            return "Vreme u gradu " + city + " je " + j['current']['condition']['text']+"\n Temperatura je "+j['current']['temp_c']+" °C"
+        try:
+            return "Vreme u gradu " + city.capitalize() + " je " + j['current']['condition']['text'].lower()+"\nTemperatura je "+str(j['current']['temp_c'])+" °C"
+        except:
+            return "Trenutno nemamo podatke za taj grad"
     if language == "EN":
         r = requests.get("https://api.weatherapi.com/v1/current.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&aqi=no")
         j = r.json()
-        if j['error']['message'] != "No matching location found.":
+        try:
+            return "Weather in " + city.capitalize() + " is " + j['current']['condition'][
+                'text'].lower() + "\nThe temperature is " + str(j['current']['temp_c']) + " °C"
+        except:
             return "We don't have data for that city yet."
-        else:
-            return "Weather in " + city + " is " + j['current']['condition']['text']+"\n The temperature is "+j['current']['temp_c']+" °C"
