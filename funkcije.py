@@ -211,8 +211,8 @@ def weather(city,language):
             err = "We don't have data for that city yet."
         if err != "":
             return err
-    embed = discord.Embed(title=title, color=0xff9500)
-    embed.add_field(name=city.capitalize(), value=x, inline=True)
+    embed = discord.Embed(title=title + city.capitalize(), color=0xff9500)
+    embed.add_field(name="", value=x, inline=True)
     return embed
 def weatherforecast(city,language):
     err = ""
@@ -220,11 +220,12 @@ def weatherforecast(city,language):
 
         r = requests.get("http://api.weatherapi.com/v1/forecast.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&days=3&aqi=no")
         j = r.json()
+        Current_Date = datetime.date(datetime.now())
+        i = 0
+        while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
+            i += 1
         try:
-            Current_Date = datetime.date(datetime.now())
-            i = 0
-            while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
-                i += 1
+
             x = j['forecast']['forecastday'][i-1]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][0]['day']['avgtemp_c']) + " °C"
             y = j['forecast']['forecastday'][i]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
             z = j['forecast']['forecastday'][i+1]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
@@ -237,11 +238,12 @@ def weatherforecast(city,language):
         r = requests.get(
             "http://api.weatherapi.com/v1/forecast.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&days=3&aqi=no&lang=sr")
         j = r.json()
+        Current_Date = datetime.date(datetime.now())
+        i = -1
+        while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
+            i += 1
         try:
-            Current_Date = datetime.date(datetime.now())
-            i = -1
-            while str(j['data']['forecast']['daily']['uvi'][i]['day']) != str(Current_Date):
-                i += 1
+
             x = j['forecast']['forecastday'][i+0]['day']['condition']['text'].capitalize() + "\nProsecna temperatura: " + str(j['forecast']['forecastday'][0]['day']['avgtemp_c']) + " °C"
             y = j['forecast']['forecastday'][i+1]['day']['condition']['text'].capitalize() + "\nProsecna temperatura: " + str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
             z = j['forecast']['forecastday'][i+2]['day']['condition']['text'].capitalize() + "\nProsecna temperatura: " + str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
