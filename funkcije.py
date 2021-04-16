@@ -2,6 +2,15 @@ import json
 import requests
 import discord
 from datetime import datetime
+from datetime import date
+import time
+
+def vremeTrenutno():
+    today = date.today()
+    d = today.strftime("%d/%m/%Y")
+    t = time.localtime()
+    current_time = time.strftime("%H:%M", t)
+    return (d , current_time)
 
 def geo(city,lang):
     r = requests.get("https://api.opencagedata.com/geocode/v1/json?q="+city+"&key=62a752a9a17d47db88fcf4b4576783d6")
@@ -15,18 +24,22 @@ def geo(city,lang):
         if lang == 'EN':
             la = str(j['results'][0]['geometry']['lat'])
             ln = str(j['results'][0]['geometry']['lng'])
+            datum = vremeTrenutno()
+            vreme = vremeTrenutno()
             embed = discord.Embed(title="Geolocation", url="https://www.google.com/maps/@"+la+","+ln+",14z", color=0x6d51f5)
             embed.add_field(name="lat", value= la , inline=True)
             embed.add_field(name="lgn", value= ln , inline=True)
-            embed.set_footer(text="datum, vreme")
+            embed.set_footer(text= datum[0] + ", " + vreme[1])
             return embed
         elif lang == 'RS':
             la = str(j['results'][0]['geometry']['lat'])
             ln = str(j['results'][0]['geometry']['lng'])
+            datum = vremeTrenutno()
+            vreme = vremeTrenutno()
             embed = discord.Embed(title="Geolokacija", url="https://www.google.com/maps/@" + la + "," + ln + ",14z",color=0x6d51f5)
             embed.add_field(name="lat", value=la, inline=True)
             embed.add_field(name="lgn", value=ln, inline=True)
-            embed.set_footer(text="datum, vreme")
+            embed.set_footer(text= datum[0] + ", " + vreme[1])
             return embed
             #return "Lat: " + str(j['results'][0]['geometry']['lat']) + '\nLng: ' + str(j['results'][0]['geometry']['lng'])
 
