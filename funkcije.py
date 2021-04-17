@@ -71,15 +71,15 @@ def aqi (city, lang):
             if k <= 50:
                 return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo je dobar kvalitet vazduha (zelena zona)")
             elif k <= 100:
-                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo je umeren kvalitet vazduha (zuta zona)")
+                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo je umeren kvalitet vazduha (žuta zona)")
             elif k <= 150:
-                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo nije zdrav kvalitet vazduha za osetljive grupe (narandzasta zona)")
+                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo nije zdrav kvalitet vazduha za osetljive grupe (narandžasta zona)")
             elif k <= 200:
                 return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo nije zdrav kvalitet vazduha (crvena zona)")
             elif k <= 300:
-                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo bas nije zdrav kvalitet vazduha (plava zona)")
+                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo baš nije zdrav kvalitet vazduha (plava zona)")
             else:
-                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo je opasan kvalitet vazduha, koliko je los (ljubicasta zona)")
+                return ('Indeks kvalitet vazduha iznosi: ', str(k), "\nTo je opasan kvalitet vazduha, koliko je loš (ljubičasta zona)")
 
 
 def uviTrenutno(city, language):
@@ -98,15 +98,15 @@ def uviTrenutno(city, language):
             k = j['data']['forecast']['daily']['uvi'][i]['max']
             int(k)
             if k <= 3:
-                return ('Maksimalni UV indeks je: ',str(k),'\nNiska opasnost od UV zracenja - Zelena zona')
+                return ('Maksimalni UV indeks je: ',str(k),'\nNiska opasnost od UV zračenja - Zelena zona')
             elif k <= 6:
-                return('Maksimalni UV indeks je: ',str(k),'\nSrednji rizik od UV zracenja - Zuta zona','\nPreporuka: Potrudite se da ne izlazite na Sunce oko podneva')
+                return('Maksimalni UV indeks je: ',str(k),'\nSrednji rizik od UV zračenja - Žuta zona','\nPreporuka: Potrudite se da ne izlazite na Sunce oko podneva')
             elif k <= 8:
-                return('Maksimalni UV indeks je: ',str(k),'\nVisok rizik od UV zracenja - Narandzasta zona','\nPreporuka: Nosite naocare za suncanje i kremu sa zastitnim faktorom 30+')
+                return('Maksimalni UV indeks je: ',str(k),'\nVisok rizik od UV zračenja - Narandžasta zona','\nPreporuka: Nosite naocare za sunčanje i kremu sa zaštitnim faktorom 30+')
             elif k <= 10:
-                return('Maksimalni UV indeks je: ',str(k),'\nVeoma visok rizik od UV zracenja - Crvena zona','\nPreporuka: Nemojte ostajati dugo na Suncu i nanosite kremu sa zastitnim faktorom 30+')
+                return('Maksimalni UV indeks je: ',str(k),'\nVeoma visok rizik od UV zračenja - Crvena zona','\nPreporuka: Nemojte ostajati dugo na Suncu i nanosite kremu sa zaštitnim faktorom 30+')
             elif k >= 11:
-                return('Maksimalni UV indeks je: ',str(k),'\nEkstremni rizik od UV zracenja - Ljubicasta zona','\nPreporuka: Izbegavajte Sunce od 10h do 17h i zastitite celu kozu sa adekvatnim oblacenjem')
+                return('Maksimalni UV indeks je: ',str(k),'\nEkstremni rizik od UV zračenja - Ljubičasta zona','\nPreporuka: Izbegavajte Sunce od 10h do 17h i zaštitite celu kožu sa adekvatnim oblačenjem')
     elif language == 'EN':
         if j['status'] == 'error':
             return "We don't have information for that city"
@@ -227,8 +227,7 @@ def weatherforecast(city,language):
         dates = []
         for i in range(0, 4):
             curr = int(start_pos + i * 8)
-            target.append(j['list'][curr]['weather'][0]['description'].capitalize() +
-                           "\nAverage temperature: " + str( round ( j['list'][curr]['main']['temp'] - 273.15, 1)) + "°C")
+            target.append(j['list'][curr]['weather'][0]['description'].capitalize() +"\nAverage temperature: " + str( round ( j['list'][curr]['main']['temp'] - 273.15, 1)) + "°C")
             dates.append((j['list'][curr]['dt_txt'])[:16])
         title = "Weather forecast for " + city
         curr_txt = 'Current weather'
@@ -247,8 +246,7 @@ def weatherforecast(city,language):
         dates = []
         for i in range(0, 4):
             curr = int(start_pos + i * 8)
-            target.append(j['list'][curr]['weather'][0]['description'].capitalize() +
-                          "\nProsecna temperatura: " + str(round(j['list'][curr]['main']['temp'] - 273.15, 1)) + "°C")
+            target.append(j['list'][curr]['weather'][0]['description'].capitalize() +"\nProsečna temperatura: " + str(round(j['list'][curr]['main']['temp'] - 273.15, 1)) + "°C")
             dates.append((j['list'][curr]['dt_txt'])[:16])
         title = "Weather forecast for " + city
         curr_txt = 'Trenutno vreme'

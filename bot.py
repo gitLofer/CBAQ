@@ -47,10 +47,10 @@ async def help(ctx):
     weather_help_en = 'Show the weather and temperature for a given city'
     weather_forecast_help_en = 'Show current weatcher and the projected weather for the next 3 days'
 
-    help_rs = 'Prikazi ovu poruku'
+    help_rs = 'Prikaži ovu poruku'
     lang_help_rs = 'Menja jezik bota u željeni. Dostupne opcije su Srpski (RS) i Engleski (EN)'
-    uvi_help_rs = 'Prikazuje UV indeks sa uneti grad'
-    uvi_forecast_help_rs = 'Prikazuje prognozu 3 dana UV indeksa sa uneti grad'
+    uvi_help_rs = 'Prikazuje UV indeks za uneti grad'
+    uvi_forecast_help_rs = 'Prikazuje prognozu 3 dana UV indeksa za uneti grad'
     aqi_help_rs = 'Prikazuje indeks kvaliteta vazduha za uneti grad'
     geo_help_rs = 'Prikazuje geografske koordinate unetog grada'
     weather_help_rs = '*Prikazuje vreme i temperaturu za uneti grad'
@@ -85,10 +85,10 @@ async def help(ctx):
             await ctx.send("Poslao sam vam poruku!")
             return
         except:
-            await ctx.send("Vase privatne poruke su iskljucene. Molim vas da ih uklucite kako bi ste dobili help meni!")
+            await ctx.send("Vaše privatne poruke su isključene. Molim vas da ih uključite kako bi ste dobili help meni!")
 
 
-@bot.command(name='aqi', help='Prikazi AQI za neki grad / Show the AQI for a given city')
+@bot.command(name='aqi', help='Prikaži AQI za neki grad / Show the AQI for a given city')
 async def aqi(ctx, *arg1):
     arg1 = ' '.join(arg1)
     user_id = ctx.message.author.id
@@ -154,14 +154,14 @@ async def lang(ctx, arg1):
     if arg1 == 'RS' or arg1 == 'SRPSKI' or arg1 == 'SERBIAN' or arg1 == 'SR':
         us.remove_user_id(user_id, users)
         print(users)
-        await ctx.send("Jezik namesten na srpski.")
+        await ctx.send("Jezik namešten na srpski.")
         return
     elif arg1 == 'EN' or arg1 == 'ENGLESKI' or arg1 == 'ENGLISH':
         us.add_user_id(user_id, users)
         print(users)
         await ctx.send("Language changed to English.")
         return
-    await ctx.send("Uneli ste nevazecu opciju. Uradite \"" + prefix + "help lang\" da saznate vise.\nYou've entered an invalid option. Do \"" + prefix + "help lang\" to see all valid options")
+    await ctx.send("Uneli ste nevažeću opciju. Uradite \"" + prefix + "help lang\" da saznate više.\nYou've entered an invalid option. Do \"" + prefix + "help lang\" to see all valid options")
 
 # Alijasi za komande
 # bot.command(name="weather", pass_context=True)(aqi.callback)
