@@ -10,7 +10,7 @@ def vremeTrenutno():
     d = today.strftime("%d/%m/%Y")
     t = time.localtime()
     current_time = time.strftime("%H:%M", t)
-    return (d , current_time)
+    return (d, current_time)
 
 def geo(city,lang):
     r = requests.get("https://api.opencagedata.com/geocode/v1/json?q="+city+"&key=62a752a9a17d47db88fcf4b4576783d6")
@@ -24,22 +24,20 @@ def geo(city,lang):
         if lang == 'EN':
             la = str(j['results'][0]['geometry']['lat'])
             ln = str(j['results'][0]['geometry']['lng'])
-            datum = vremeTrenutno()
             vreme = vremeTrenutno()
             embed = discord.Embed(title="Geolocation", url="https://www.google.com/maps/@"+la+","+ln+",14z", color=0x6d51f5)
             embed.add_field(name="lat", value= la , inline=True)
             embed.add_field(name="lgn", value= ln , inline=True)
-            embed.set_footer(text= datum[0] + ", " + vreme[1])
+            embed.set_footer(text=vreme[0] + ", " + vreme[1])
             return embed
         elif lang == 'RS':
             la = str(j['results'][0]['geometry']['lat'])
             ln = str(j['results'][0]['geometry']['lng'])
-            datum = vremeTrenutno()
             vreme = vremeTrenutno()
             embed = discord.Embed(title="Geolokacija", url="https://www.google.com/maps/@" + la + "," + ln + ",14z",color=0x6d51f5)
             embed.add_field(name="lat", value=la, inline=True)
             embed.add_field(name="lgn", value=ln, inline=True)
-            embed.set_footer(text= datum[0] + ", " + vreme[1])
+            embed.set_footer(text= vreme[0] + ", " + vreme[1])
             return embed
             #return "Lat: " + str(j['results'][0]['geometry']['lat']) + '\nLng: ' + str(j['results'][0]['geometry']['lng'])
 
@@ -185,6 +183,7 @@ def uviZaNarednaTriDana(city, language):
 
 def weather(city,language):
     err = ""
+
     if language == "RS":
         r = requests.get("https://api.weatherapi.com/v1/current.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&aqi=no&lang=sr")
         j = r.json()
@@ -207,36 +206,60 @@ def weather(city,language):
             return err
 
 def weatherforecast(city,language):
-    err = ""
+    token = '881b48ca72047425e45c875edd0b8398'
+    city = city.title()
     if language == "EN":
-
-        r = requests.get("http://api.weatherapi.com/v1/forecast.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&days=3&aqi=no")
+        r = requests.get("http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + token)
         j = r.json()
 
-        try:
+        if j['cod'] != '200':
+            return "We don't have data for that city yet."
 
-            x = j['forecast']['forecastday'][1]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
-            y = j['forecast']['forecastday'][2]['day']['condition']['text'].capitalize() + "\nAverage temperature: "+str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
-        except:
-            err = "We don't have data for that city yet."
-        title = "Weather forecast for " + city.capitalize()
-        if err != "":
-            return err
+        # j['list'][0]['dt_txt'] -> [11:13] -> int
+        curr_time = int((j['list'][0]['dt_txt'])[11:13])
+        print(curr_time)
+        if curr_time == 12:
+            start_pos = 0
+        else:
+            start_pos = abs((curr_time % 12) - 12) / 3
+
+        target = []
+        dates = []
+        for i in range(1,5):
+            curr = int(start_pos + i * 8)
+            target.append(j['list'][curr]['weather'][0]['description'].capitalize() +
+                           "\nAverage temperature: " + str( round ( j['list'][curr]['main']['temp'] - 273.15, 2)) + "°C")
+            dates.append((j['list'][curr]['dt_txt'])[:16])
+        title = "Weather forecast for " + city
+        curr_txt = 'Current weather'
+
     elif language == "RS":
-        r = requests.get("http://api.weatherapi.com/v1/forecast.json?key=a85e144e4fa1496bba2100733211504&q=" + city + "&days=3&aqi=no&lang=sr")
+        r = requests.get("http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + token + '&lang=sr')
         j = r.json()
 
-        try:
+        if j['cod'] != '200':
+            return "Trenutno nemamo podatke za taj grad."
 
-            x = j['forecast']['forecastday'][1]['day']['condition']['text'].capitalize() + "\nProsecna temperatura: " + str(j['forecast']['forecastday'][1]['day']['avgtemp_c']) + " °C"
-            y = j['forecast']['forecastday'][2]['day']['condition']['text'].capitalize() + "\nProsecna temperatura: " + str(j['forecast']['forecastday'][2]['day']['avgtemp_c']) + " °C"
-        except:
-            err = "Trenutno nemamo podatke za taj grad."
-        title = "Vremenska prognoza za " + city.capitalize()
-        if err != "":
-            return err
+        curr_time = int((j['list'][0]['dt_txt'])[11:13])
+        start_pos = abs((curr_time % 12) - 12) / 3
 
+        target = []
+        dates = []
+        for i in range(1,5):
+            curr = int(start_pos + i * 8)
+            target.append(j['list'][curr]['weather'][0]['description'].capitalize() +
+                          "\nProsecna temperatura: " + str(round(j['list'][curr]['main']['temp'] - 273.15, 2)) + "°C")
+            dates.append((j['list'][curr]['dt_txt'])[:16])
+        title = "Weather forecast for " + city
+        curr_txt = 'Trenutno vreme'
+
+    print(target)
+    print(dates)
     embed = discord.Embed(title=title, color=0xff9500)
-    embed.add_field(name=str(j['forecast']['forecastday'][1]['date']), value=x, inline=True)
-    embed.add_field(name=str(j['forecast']['forecastday'][2]['date']), value=y, inline=True)
+    vreme = vremeTrenutno()
+    embed.add_field(name=curr_txt, value=target[0], inline=False)
+    embed.add_field(name=dates[1], value=target[1], inline=True)
+    embed.add_field(name=dates[2], value=target[2], inline=True)
+    embed.add_field(name=dates[3], value=target[3], inline=True)
+    embed.set_footer(text=vreme[0] + ", " + vreme[1])
     return embed

@@ -35,6 +35,8 @@ async def help(ctx):
     lang = us.user_lang(user_id, users)
     embed = discord.Embed(title="Chatbot for Air Quality", color=0x69a758)
     embed.set_author(name="CBAQ - Help", icon_url="https://www.pinclipart.com/picdir/middle/574-5743354_pollution-and-air-quality-circle-clipart.png")
+    vreme = f.vremeTrenutno()
+    embed.set_footer(text=vreme[0] + ", " + vreme[1])
 
     help_en = 'Show this message'
     lang_help_en = 'Change language of the bot. Available options are Serbian (RS) and English (EN)'
@@ -43,6 +45,7 @@ async def help(ctx):
     aqi_help_en = 'Show the air quality index for a given city'
     geo_help_en = 'Show the geographical coordinates for a given city'
     weather_help_en = 'Show the weather and temperature for a given city'
+    weather_forecast_help_en = 'Show current weatcher and the projected weather for the next 3 days'
 
     help_rs = 'Prikazi ovu poruku'
     lang_help_rs = 'Menja jezik bota u željeni. Dostupne opcije su Srpski (RS) i Engleski (EN)'
@@ -51,6 +54,7 @@ async def help(ctx):
     aqi_help_rs = 'Prikazuje indeks kvaliteta vazduha za uneti grad'
     geo_help_rs = 'Prikazuje geografske koordinate unetog grada'
     weather_help_rs = '*Prikazuje vreme i temperaturu za uneti grad'
+    weather_forecast_help_rs = 'Prikazuje trenutno vreme i projektovano vreme za naredna 3 dana'
 
     if (lang == 'EN'):
         embed.add_field(name=":mechanic: help", value=help_en, inline=False)
@@ -60,6 +64,7 @@ async def help(ctx):
         embed.add_field(name=":dash: aqi", value=aqi_help_en, inline=False)
         embed.add_field(name=":earth_africa: geo", value=geo_help_en, inline=False)
         embed.add_field(name=":white_sun_rain_cloud: weather", value=weather_help_en, inline=False)
+        embed.add_field(name=":white_sun_rain_cloud: weather-forecast", value=weather_forecast_help_en, inline=False)
         try:
             await ctx.message.author.send(embed=embed)
             await ctx.send("Check your DMs!")
@@ -74,6 +79,7 @@ async def help(ctx):
         embed.add_field(name=":dash: aqi", value=aqi_help_rs, inline=False)
         embed.add_field(name=":earth_africa: geo", value=geo_help_rs, inline=False)
         embed.add_field(name=":white_sun_rain_cloud: weather", value=weather_help_rs, inline=False)
+        embed.add_field(name=":white_sun_rain_cloud: weather-forecast", value=weather_forecast_help_rs, inline=False)
         try:
             await ctx.message.author.send(embed=embed)
             await ctx.send("Poslao sam vam poruku!")
