@@ -218,37 +218,37 @@ def weatherforecast(city,language):
         # j['list'][0]['dt_txt'] -> [11:13] -> int
         curr_time = int((j['list'][0]['dt_txt'])[11:13])
         print(curr_time)
-        if curr_time == 12:
-            start_pos = 0
-        else:
-            start_pos = abs((curr_time % 12) - 12) / 3
+        # if curr_time == 12:
+        #     start_pos = 0
+        # else:
+        start_pos = (12 - curr_time) / 3
 
         target = []
         dates = []
-        for i in range(1,5):
+        for i in range(0, 4):
             curr = int(start_pos + i * 8)
             target.append(j['list'][curr]['weather'][0]['description'].capitalize() +
-                           "\nAverage temperature: " + str( round ( j['list'][curr]['main']['temp'] - 273.15, 2)) + "°C")
+                           "\nAverage temperature: " + str( round ( j['list'][curr]['main']['temp'] - 273.15, 1)) + "°C")
             dates.append((j['list'][curr]['dt_txt'])[:16])
         title = "Weather forecast for " + city
         curr_txt = 'Current weather'
 
     elif language == "RS":
-        r = requests.get("http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + token + '&lang=sr')
+        r = requests.get("http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + token + '&lang=hr')
         j = r.json()
 
         if j['cod'] != '200':
             return "Trenutno nemamo podatke za taj grad."
 
         curr_time = int((j['list'][0]['dt_txt'])[11:13])
-        start_pos = abs((curr_time % 12) - 12) / 3
+        start_pos = (12 - curr_time) / 3
 
         target = []
         dates = []
-        for i in range(1,5):
+        for i in range(0, 4):
             curr = int(start_pos + i * 8)
             target.append(j['list'][curr]['weather'][0]['description'].capitalize() +
-                          "\nProsecna temperatura: " + str(round(j['list'][curr]['main']['temp'] - 273.15, 2)) + "°C")
+                          "\nProsecna temperatura: " + str(round(j['list'][curr]['main']['temp'] - 273.15, 1)) + "°C")
             dates.append((j['list'][curr]['dt_txt'])[:16])
         title = "Weather forecast for " + city
         curr_txt = 'Trenutno vreme'
