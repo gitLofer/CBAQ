@@ -28,6 +28,12 @@ async def on_ready():
     print(users)
     print('Connected to Discord!')
 
+@bot.command(name='dm')
+async def dm(ctx, *arg1):
+    arg1 = ' '.join(arg1)
+    channel = bot.get_channel(831843361311948800)
+    await channel.send(arg1)
+
 @bot.command(name='help')
 # @commands.has_role('Admin')
 async def help(ctx):
@@ -45,7 +51,7 @@ async def help(ctx):
     aqi_help_en = 'Show the air quality index for a given city'
     geo_help_en = 'Show the geographical coordinates for a given city'
     weather_help_en = 'Show the weather and temperature for a given city'
-    weather_forecast_help_en = 'Show current weatcher and the projected weather for the next 3 days'
+    weather_forecast_help_en = 'Show current weather and the projected weather for the next 3 days'
 
     help_rs = 'Prikaži ovu poruku'
     lang_help_rs = 'Menja jezik bota u željeni. Dostupne opcije su Srpski (RS) i Engleski (EN)'
@@ -88,7 +94,7 @@ async def help(ctx):
             await ctx.send("Vaše privatne poruke su isključene. Molim vas da ih uključite kako bi ste dobili help meni!")
 
 
-@bot.command(name='aqi', help='Prikaži AQI za neki grad / Show the AQI for a given city')
+@bot.command(name='aqi')
 async def aqi(ctx, *arg1):
     arg1 = ' '.join(arg1)
     user_id = ctx.message.author.id
@@ -147,7 +153,7 @@ async def weatherforecast(ctx, *arg1):
     else:
         await ctx.send(answ)
 
-@bot.command(name='lang', help='For English: EN, ENGLISH, ENGLESKI\nZa srpski: RS, SR, SERBIAN, SRPSKI')
+@bot.command(name='lang')
 async def lang(ctx, arg1):
     arg1 = arg1.upper()
     user_id = ctx.author.id
@@ -164,6 +170,13 @@ async def lang(ctx, arg1):
     await ctx.send("Uneli ste nevažeću opciju. Uradite \"" + prefix + "help lang\" da saznate više.\nYou've entered an invalid option. Do \"" + prefix + "help lang\" to see all valid options")
 
 # Alijasi za komande
-# bot.command(name="weather", pass_context=True)(aqi.callback)
+bot.command(name="AQI", pass_context=True)(aqi.callback)
+bot.command(name="UVI", pass_context=True)(uvi.callback)
+bot.command(name="UVI-FORECAST", pass_context=True)(uvi_forecast.callback)
+bot.command(name="LANG", pass_context=True)(lang.callback)
+bot.command(name="WEATHER", pass_context=True)(weather.callback)
+bot.command(name="WEATHER-FORECAST", pass_context=True)(weatherforecast.callback)
+bot.command(name="GEO", pass_context=True)(geo.callback)
+bot.command(name="HELP", pass_context=True)(help.callback)
 
 bot.run(TOKEN)
